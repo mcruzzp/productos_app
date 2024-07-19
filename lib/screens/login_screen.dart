@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -27,7 +28,8 @@ class LoginScreen extends StatelessWidget {
                   ],)
               ),
               SizedBox(height: 50,),
-              Text('Crear un nueva cuenta', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
+              Text('Crear un nueva cuenta', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              SizedBox(height: 50,),
 
 
 
@@ -50,27 +52,31 @@ class _LoginForm extends StatelessWidget {
           children: [
             TextFormField(
               autocorrect: false,
+              obscureText: true,
+              keyboardType: TextInputType.text,
+              decoration: InputDecorations.authInputDecoration(hintText: 'john.doe@gmail.com', labelText: 'Correo electrónico', prefixIcon: Icons.alternate_email_rounded),
+            ),
+            SizedBox(height: 30,),
+            TextFormField(
+              autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.deepPurple
-                  )
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.deepPurple,
-                    width: 2
-                  )
-                ),
-                hintText: 'Correo electrónico',
-                labelText: 'Correo',
-                labelStyle: TextStyle(
-                  color: Colors.grey
-                ),
-                prefixIcon: Icon(Icons.alternate_email_sharp, color: Colors.deepPurple)
-              ),
-            )
+              decoration: InputDecorations.authInputDecoration(hintText: '*****', labelText: 'Contraseña', prefixIcon: Icons.lock_clock_sharp),
+            ),
+
+            SizedBox(height: 30,),
+
+            MaterialButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              disabledColor: Colors.grey,
+              elevation: 0,
+              color: Colors.deepPurple,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                child: Text('Aceptar')
+                ), 
+              textColor: Colors.white,
+
+              onPressed:  (){})
           ],),)
     );
   }
