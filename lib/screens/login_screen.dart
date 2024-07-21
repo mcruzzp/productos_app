@@ -48,19 +48,48 @@ class _LoginForm extends StatelessWidget {
     return Container(
       child: Form(
         //TODO mantener la referencia al KEY
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+
+
         child: Column(
           children: [
             TextFormField(
               autocorrect: false,
-              obscureText: true,
-              keyboardType: TextInputType.text,
-              decoration: InputDecorations.authInputDecoration(hintText: 'john.doe@gmail.com', labelText: 'Correo electrónico', prefixIcon: Icons.alternate_email_rounded),
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecorations.authInputDecoration(
+                hintText: 'john.doe@gmail.com', 
+                labelText: 'Correo electrónico', 
+                prefixIcon: Icons.alternate_email_rounded
+              ),
+              validator: ( value ) {
+                String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regExp  = RegExp(pattern);
+
+                return regExp.hasMatch(value ?? '')
+                  ? null
+                  : 'Formato de correo incorrecto.';
+
+              },
             ),
+
+
             SizedBox(height: 30,),
+            
             TextFormField(
               autocorrect: false,
+              obscureText: true,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecorations.authInputDecoration(hintText: '*****', labelText: 'Contraseña', prefixIcon: Icons.lock_clock_sharp),
+              decoration: InputDecorations.authInputDecoration(
+                hintText: '*****', 
+                labelText: 'Contraseña', 
+                prefixIcon: Icons.lock_clock_sharp
+              ),
+              validator: ( value ) {
+                if (value != null && value.length >= 6) return null;
+
+                return 'La longitud debe ser de 6 caracteres';
+
+              },
             ),
 
             SizedBox(height: 30,),
