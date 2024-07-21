@@ -125,7 +125,7 @@ class _LoginForm extends StatelessWidget {
                 
                 loginForm.isLoading = true;
 
-                await Future.delayed(Duration(seconds: 2)); //simulamos estado de espera para ver el texto "Expere..." antes de nager al home
+                await Future.delayed(Duration(seconds: 2)); //simulamos estado de espera para ver el texto "Esspere..." antes de nager al home
 
                 loginForm.isLoading = true;
 
