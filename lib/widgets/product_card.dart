@@ -18,6 +18,16 @@ class ProductCard extends StatelessWidget {
             _BackgroundImage(),
 
             _ProductDetails(),
+
+            Positioned(
+              top: 0,
+              right: 0,
+              child: _PriceTag()),
+
+            Positioned(
+              top: 0,
+              left: 0,
+              child: _NotAvailable())
           ],
         )
       ),
@@ -36,6 +46,60 @@ class ProductCard extends StatelessWidget {
       ),
     ]
   );
+}
+
+class _NotAvailable extends StatelessWidget {
+  const _NotAvailable({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Text('No Disponible',
+          style: TextStyle(color: Colors.white, fontSize: 20))
+        ),
+      ),
+      width: 100,
+      height: 70,
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 255, 163, 59),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(25), bottomRight: Radius.circular(25))
+      )
+    );
+  }
+}
+
+class _PriceTag extends StatelessWidget {
+  const _PriceTag({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text('\$100', style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
+      ),
+      width: 100,
+      height: 70,
+      decoration: BoxDecoration(
+        color: Colors.indigo,
+        borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomLeft: Radius.circular(25))
+
+
+      ),
+    );
+  }
 }
 
 class _ProductDetails extends StatelessWidget {
@@ -61,7 +125,7 @@ class _ProductDetails extends StatelessWidget {
             overflow: TextOverflow.ellipsis
           ),
           
-          Text('ID del disco duro', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          Text('ID del disco duro', style: TextStyle(fontSize: 15, color: Colors.white),
             maxLines: 1,
             overflow: TextOverflow.ellipsis
           ),
@@ -87,9 +151,9 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-          image: AssetImage('assets/jar-loading.gif'),
-          placeholder: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+        child: const FadeInImage(
+          image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+          placeholder: AssetImage('assets/jar-loading.gif'),
           fit: BoxFit.cover),
       ),
     );
