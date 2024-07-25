@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:productos_app/screens/screens.dart';
 
 
@@ -18,7 +19,15 @@ class MyApp extends StatelessWidget {
         'home':  ( _ ) => HomeScreen(),
       },
       theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: Colors.grey[300]
+        scaffoldBackgroundColor: Colors.grey[300],
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          color: Colors.indigo,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.indigo,
+          elevation: 0
+        )
       )
       
     );
