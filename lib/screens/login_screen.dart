@@ -96,7 +96,7 @@ class _LoginForm extends StatelessWidget {
               validator: ( value ) {
                 if (value != null && value.length >= 6) return null;
 
-                return 'La longitud debe ser de 6 caracteres';
+                return 'Debe tener al menos 6 caracteres';
 
               },
             ),
