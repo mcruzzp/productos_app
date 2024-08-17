@@ -1,10 +1,6 @@
 import 'dart:convert';
 
 class Product {
-    bool available;
-    String name;
-    String? picture;
-    double price;
 
     Product({
         required this.available,
@@ -12,6 +8,12 @@ class Product {
         this.picture,
         required this.price,
     });
+
+    bool available;
+    String name;
+    String? picture;
+    double price;
+    String? id;
 
     factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
 
