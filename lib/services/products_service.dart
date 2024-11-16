@@ -11,8 +11,10 @@ final List<Product> products = [];
 
 bool isLoading = true;
 
+
+
 ProductService () {
-  this.loadProducts();
+  loadProducts();
 
 }
 
@@ -20,11 +22,15 @@ Future<List<Product>> loadProducts () async {
 
   this.isLoading = true;
   notifyListeners();
+
   
   final url = Uri.https(_baseUrl, 'productos.json');
+  print(url);
   final resp = await http.get(url);
 
   final Map<String, dynamic> productsMap = json.decode(resp.body);
+
+  print(productsMap);
 
   //recorremos la respuesta para convertirla en una lista
   productsMap.forEach((key, value) {

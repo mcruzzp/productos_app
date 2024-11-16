@@ -14,7 +14,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+     print('hola1');
      final productsService = Provider.of<ProductsService>(context);
+     print('hola2');
+
 
     return Scaffold(
       appBar: AppBar(
