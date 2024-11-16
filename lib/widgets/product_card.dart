@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:productos_app/models/models.dart';
+
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  //const ProductCard({super.key});
+
+  final Product product;
+
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +21,20 @@ class ProductCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            _BackgroundImage(),
+            _BackgroundImage(product.picture),
 
-            _ProductDetails(),
+            _ProductDetails(title: product.name, subTitle: product.id!),
 
             Positioned(
               top: 0,
               right: 0,
-              child: _PriceTag()),
+              child: _PriceTag(price: product.price)),
 
-            Positioned(
-              top: 0,
-              left: 0,
-              child: _NotAvailable())
+            if (!product.available)
+              Positioned(
+                top: 0,
+                left: 0,
+                child: _NotAvailable())
           ],
         )
       ),
@@ -75,9 +82,9 @@ class _NotAvailable extends StatelessWidget {
 }
 
 class _PriceTag extends StatelessWidget {
-  const _PriceTag({
-    super.key,
-  });
+  final double price;
+
+  const _PriceTag({super.key, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +94,7 @@ class _PriceTag extends StatelessWidget {
         fit: BoxFit.contain,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text('\€100', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text('\€$price', style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
       ),
       width: 100,
@@ -103,9 +110,10 @@ class _PriceTag extends StatelessWidget {
 }
 
 class _ProductDetails extends StatelessWidget {
-  const _ProductDetails({
-    super.key,
-  });
+  final String title;
+  final String subTitle;
+
+  const _ProductDetails({super.key, required this.title, required this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -120,12 +128,14 @@ class _ProductDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Disco duro G', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+            //Text('Disco duro G', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+            Text(title, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis
           ),
           
-          Text('ID del disco duro', style: TextStyle(fontSize: 15, color: Colors.white),
+          //Text('ID del disco duro', style: TextStyle(fontSize: 15, color: Colors.white),
+          Text(subTitle, style: TextStyle(fontSize: 15, color: Colors.white),
             maxLines: 1,
             overflow: TextOverflow.ellipsis
           ),
@@ -142,7 +152,9 @@ class _ProductDetails extends StatelessWidget {
 }
 
 class _BackgroundImage extends StatelessWidget {
+  final String? url;
 
+  const _BackgroundImage(this.url);
 
   @override
   Widget build(BuildContext context) {
@@ -151,10 +163,14 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: const FadeInImage(
-          image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          fit: BoxFit.cover),
+        child:  url == null
+          ? Image(image: AssetImage('assets/no-image.png'),
+                  fit: BoxFit.cover)
+          : FadeInImage(
+              //image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+              image: NetworkImage(url!),
+              placeholder: const AssetImage('assets/jar-loading.gif'),
+              fit: BoxFit.cover),
       ),
     );
   }

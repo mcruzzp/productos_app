@@ -8,12 +8,13 @@ class ProductsService extends ChangeNotifier {
 
 final String _baseUrl = 'flutter-varios-c2850-default-rtdb.europe-west1.firebasedatabase.app';
 final List<Product> products = [];
+late Product? selectedProduct;
 
 bool isLoading = true;
 
 
 
-ProductService () {
+ProductsService () {
   loadProducts();
 
 }
@@ -41,7 +42,7 @@ Future<List<Product>> loadProducts () async {
 
   });
 
-  //this.isLoading = false;
+  this.isLoading = false;
   notifyListeners();
 
   return products;
