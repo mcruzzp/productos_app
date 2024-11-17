@@ -67,15 +67,19 @@ Future<List<Product>> loadProducts () async {
   }
 
 
-  Future<String?> updateProduct (Product product) async {
+  Future<String> updateProduct (Product product) async {
     final url = Uri.https(_baseUrl, 'productos/${product.id}.json');
     final resp = await http.put(url, body: product.toJson());
 
     final decodedData = resp.body;
 
-    return product.id;
+    //refrescamos los datos del producto en la lista
+    final index = this.products.indexWhere((element) => element.id == product.id);
+    this.products[index] = product;
+
+    notifyListeners();
+    
+    return product.id!;
   }
-
-
 
 }
