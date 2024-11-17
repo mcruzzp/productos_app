@@ -70,11 +70,11 @@ class _ProductScreenBody extends StatelessWidget {
                       );
 
                       if(pickedFile == null) {
-                        print('No se ha seleccionado o capturado imagen.');
                         return;
                       }
 
                       print('Tenemos Imagen!!!! ${pickedFile.path}');
+                      ProductService.updateSelectedProductImage(pickedFile.path);
                     },
                     )
                   )
@@ -89,11 +89,22 @@ class _ProductScreenBody extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.save_outlined, color: Colors.white, size: 30),
-          onPressed: () async {
+          child: ProductService.isSaving 
+            ? CircularProgressIndicator(color: Colors.white)
+            : Icon(Icons.save_outlined, color: Colors.white, size: 30),
+          onPressed: ProductService.isSaving  
+            ? null 
+            : () async {
             if (!productForm.isValidForm()) return;
 
-            ProductService.saveOrCreateProduct(productForm.product);
+            final String? imageUrl = await ProductService.uploadImage();            
+
+            if (imageUrl != null) {
+              productForm.product.picture = imageUrl!;
+            }
+
+            await ProductService.saveOrCreateProduct(productForm.product);
+
           }),
       );
   }
