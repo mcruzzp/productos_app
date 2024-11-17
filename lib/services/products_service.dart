@@ -57,6 +57,7 @@ Future<List<Product>> loadProducts () async {
 
     if (product.id == null) {
       //creacion
+      await createProduct (product);
     } else {
       await updateProduct(product);
     }
@@ -66,6 +67,23 @@ Future<List<Product>> loadProducts () async {
 
   }
 
+
+  Future<String> createProduct (Product product) async {
+    final url = Uri.https(_baseUrl, 'productos.json');
+    final resp = await http.post(url, body: product.toJson());
+
+    final decodedData = json.decode(resp.body);
+
+    product.id = decodedData['name'];
+
+    //refrescamos los datos del producto en la lista
+    this.products.add(product); 
+
+
+    //notifyListeners();
+    
+    return product.id!;
+  }
 
   Future<String> updateProduct (Product product) async {
     final url = Uri.https(_baseUrl, 'productos/${product.id}.json');
