@@ -11,20 +11,23 @@ class ProductImage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 10, left: 10, top: 10),
       child: Container(
+        decoration: _buildBoxDecoration(),
         height: 450,
         width: double.infinity,
-        decoration: _bueldBoxDecoration(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(45), topLeft: Radius.circular(45)),
-          child:  this.url == null 
-            ? Image(
-                image:AssetImage('assets/no-image.png'),  
-                fit: BoxFit.cover)
-            : FadeInImage( 
-              image: NetworkImage(url!),
-              placeholder: AssetImage('assets/jar-loading.gif'),
-              fit: BoxFit.cover,
-          
+        child: Opacity(
+          opacity: 0.9 ,
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(45), topLeft: Radius.circular(45)),
+            child:  this.url == null 
+              ? Image(
+                  image:AssetImage('assets/no-image.png'),  
+                  fit: BoxFit.cover)
+              : FadeInImage( 
+                image: NetworkImage(url!),
+                placeholder: AssetImage('assets/jar-loading.gif'),
+                fit: BoxFit.cover,
+            
+            ),
           ),
         )
         ),
@@ -33,8 +36,8 @@ class ProductImage extends StatelessWidget {
     );
   }
 
-  BoxDecoration _bueldBoxDecoration() => BoxDecoration( 
-    color: Colors.red,
+  BoxDecoration _buildBoxDecoration() => BoxDecoration( 
+    color: Colors.black,
     borderRadius: BorderRadius.only(topLeft: Radius.circular(45), topRight: Radius.circular(45)),
     boxShadow: [BoxShadow(
       color: Colors.black12.withOpacity(0.05),

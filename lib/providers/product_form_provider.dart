@@ -10,8 +10,17 @@ class ProductFormPovider extends ChangeNotifier {
 
   ProductFormPovider(this.product);
 
+  updateAvailibility (bool value) {
+    print(value);
 
-    bool isValidForm () {
+    this.product.available = value;
+
+    notifyListeners();
+
+  }
+
+  bool isValidForm () {
+    
     return formKey.currentState?.validate() ?? false;
   }
 

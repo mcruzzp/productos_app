@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:productos_app/providers/product_form_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
+import 'package:productos_app/providers/product_form_provider.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/services/services.dart';
 import 'package:productos_app/widgets/widgets.dart';
@@ -33,8 +34,12 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+    final productForm = Provider.of<ProductFormPovider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
+        //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag, //esconde el teclado al desplazar la pantalla
         child: Column(
           children: [
             Stack(
@@ -70,7 +75,11 @@ class _ProductScreenBody extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.save_outlined, color: Colors.white, size: 30),
-          onPressed: (){}),
+          onPressed: () async {
+            if (!productForm.isValidForm()) return;
+
+            ProductService.updateProduct(productForm.product);
+          }),
       );
   }
 }
@@ -91,6 +100,8 @@ class _ProductForm extends StatelessWidget {
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
+          key: productForm.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               SizedBox(height: 10),
@@ -112,6 +123,8 @@ class _ProductForm extends StatelessWidget {
 
               TextFormField(
                 initialValue: '${product.price}',
+                inputFormatters: 
+                  [FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))],
                 onChanged: (value) {
                   if (double.tryParse(value) == null) {
                     product.price = 0;
@@ -135,10 +148,7 @@ class _ProductForm extends StatelessWidget {
               SwitchListTile.adaptive(
                 value: product.available, 
                 title: Text('Disponible'),
-                onChanged: (value) {
-
-                  
-                }
+                onChanged: (value)  => productForm.updateAvailibility (value)
               ),
 
 

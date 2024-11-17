@@ -8,9 +8,10 @@ class ProductsService extends ChangeNotifier {
 
 final String _baseUrl = 'flutter-varios-c2850-default-rtdb.europe-west1.firebasedatabase.app';
 final List<Product> products = [];
-late Product? selectedProduct;
+late Product selectedProduct;
 
 bool isLoading = true;
+bool isSaving = false;
 
 
 
@@ -48,6 +49,33 @@ Future<List<Product>> loadProducts () async {
   return products;
 
 
-}
+  }
+
+  Future saveOrCreateProduct(product) async {
+    isSaving = true;
+    notifyListeners();
+
+    if (product.id == null) {
+      //creacion
+    } else {
+      await updateProduct(product);
+    }
+
+    isSaving = false;
+    notifyListeners();
+
+  }
+
+
+  Future<String?> updateProduct (Product product) async {
+    final url = Uri.https(_baseUrl, 'productos/${product.id}.json');
+    final resp = await http.put(url, body: product.toJson());
+
+    final decodedData = resp.body;
+
+    return product.id;
+  }
+
+
 
 }
