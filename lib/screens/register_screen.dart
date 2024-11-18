@@ -121,21 +121,22 @@ class _LoginForm extends StatelessWidget {
                   ? null
                   : () async {
                       FocusScope.of(context).unfocus(); //Esconde el teclado
-                      final authService = Provider.of<AuthService>(context, listen: false);
+                      final authService =
+                          Provider.of<AuthService>(context, listen: false);
 
                       if (!loginForm.isValidForm()) return;
 
                       loginForm.isLoading = true;
 
-                      final String? errorMessage = await authService.createUser(loginForm.email, loginForm.password);
+                      final String? errorMessage = await authService.createUser(
+                          loginForm.email, loginForm.password);
 
                       if (errorMessage == null) {
                         Navigator.pushReplacementNamed(context, 'home');
                       } else {
-                        //mostrar erroren pantalla
-                        
-                        loginForm.isLoading = false;
+                        NotificationsService.showSnackbar(errorMessage);
 
+                        loginForm.isLoading = false;
                       }
                     })
         ],
