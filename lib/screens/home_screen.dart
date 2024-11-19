@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.login_outlined),
+          icon: Icon(Icons.login_outlined, color: Colors.white),
           onPressed: () {
             authService.logout();
             Navigator.pushReplacementNamed(context, 'login');
