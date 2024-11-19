@@ -12,10 +12,12 @@ class AuthService extends ChangeNotifier {
 
   // si este método devuelve algo es porque se ha producido un error.
   Future<String?> createUser(String email, String password) async {
+    print(password);
+
     final Map<String, dynamic> authData = {
       'email': email,
-      'passworf': password,
-      'returnSecureToken' : true
+      'password': password,
+      'returnSecureToken': true
     };
 
     final url =
@@ -40,8 +42,8 @@ class AuthService extends ChangeNotifier {
   Future<String?> login(String email, String password) async {
     final Map<String, dynamic> authData = {
       'email': email,
-      'passworf': password,
-      'returnSecureToken' : true
+      'password': password,
+      'returnSecureToken': true
     };
 
     final url = Uri.https(
@@ -72,6 +74,5 @@ class AuthService extends ChangeNotifier {
 
   Future<String> readToken() async {
     return await storage.read(key: 'token') ?? '';
-
   }
 }
