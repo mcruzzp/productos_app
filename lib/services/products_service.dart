@@ -73,7 +73,6 @@ Future<List<Product>> loadProducts () async {
 
   }
 
-
   Future<String> createProduct (Product product) async {
     final url = Uri.https(_baseUrl, 'productos.json', {
     'auth': await storage.read(key: 'token') ?? ''
