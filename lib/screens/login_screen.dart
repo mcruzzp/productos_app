@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/services/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:productos_app/providers/login_form_provider.dart';
@@ -32,7 +33,13 @@ class LoginScreen extends StatelessWidget {
                   ],)
               ),
               SizedBox(height: 50,),
-              Text('Crear un nueva cuenta', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              TextButton(
+                child: Text('Crear un nueva cuenta', style: TextStyle(fontSize: 16, color: Colors.black87)),
+                style: ButtonStyle(
+                  overlayColor: WidgetStateProperty.all(Colors.indigo.withOpacity(0.1)),
+                  shape: WidgetStateProperty.all(StadiumBorder()),
+                ),
+                onPressed: () => Navigator.pushReplacementNamed(context, 'register')), 
               SizedBox(height: 50,),
 
 
@@ -121,15 +128,23 @@ class _LoginForm extends StatelessWidget {
               onPressed: loginForm.isLoading ? null :  () async {
                 FocusScope.of(context).unfocus(); //Esconde el teclado
 
-                if (!loginForm.isValidForm() ) return;
-                
-                loginForm.isLoading = true;
+                      final authService = Provider.of<AuthService>(context, listen: false);
 
-                await Future.delayed(Duration(seconds: 2)); //simulamos estado de espera para ver el texto "Esspere..." antes de nager al home
+                      if (!loginForm.isValidForm()) return;
 
-                loginForm.isLoading = true;
+                      loginForm.isLoading = true;
 
-                Navigator.pushReplacementNamed(context, 'home');
+                      final String? errorMessage = await authService.login(loginForm.email, loginForm.password);
+
+                      if (errorMessage == null) {
+                        Navigator.pushReplacementNamed(context, 'home');
+                      } else {
+                        NotificationsService.showSnackbar(errorMessage);
+                        
+                        loginForm.isLoading = false;
+
+                      }
+
               })
           ],),)
     );
